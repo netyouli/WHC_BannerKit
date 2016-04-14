@@ -42,8 +42,10 @@ const NSTimeInterval kDefaultInterval = 2;
     NSInteger                 _visibleImageCount;
     NSInteger                 _currentImageIndex;
     NSInteger                 _initImageIndex;
+    NSInteger                 _networkImageCount;
     WHCBannerOrientation      _doingScrollOrientation;
-    WillLoadingNetworkImage   _netWorkCallBack;
+    WillLoadingNetworkImageBlock   _netWorkCallBack;
+    ClickImageViewBlock            _clickImageViewCallBack;
 }
 
 @end
@@ -110,8 +112,12 @@ const NSTimeInterval kDefaultInterval = 2;
     [_bottomView addSubview:_pageCtl];
 }
 
-- (void)setNetworkLoadingImageBlock:(WillLoadingNetworkImage)callBack {
+- (void)setNetworkLoadingImageBlock:(WillLoadingNetworkImageBlock)callBack {
     _netWorkCallBack = callBack;
+}
+
+- (void)setClickImageViewBlock:(ClickImageViewBlock)callBack {
+    _clickImageViewCallBack = callBack;
 }
 
 - (void)setPageViewBackgroundColor:(UIColor *)pageViewBackgroundColor {
@@ -224,17 +230,21 @@ const NSTimeInterval kDefaultInterval = 2;
         return;
     }
     CGFloat bannerWidth = CGRectGetWidth(_bannerView.bounds);
+    _networkImageCount = number;
     _actualImageCount = number > 0 ? number : images.count;
     _imageCount = number > 0 ? number + 2 : _imageArray.count;
     for (NSInteger i = 0; i < _imageCount; i++) {
         CGRect frame = CGRectMake(i * _imageWidth, 0.0, _imageWidth, CGRectGetHeight(self.bounds));
         UIImageView * imageView = [[UIImageView alloc]initWithFrame:frame];
-        imageView.tag = i;
+        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapImageView:)];
+        imageView.userInteractionEnabled = YES;
+        [imageView addGestureRecognizer:tapGesture];
         [_bannerView addSubview:imageView];
-        if (number > 0) {
+        imageView.tag = i;
+        if (_networkImageCount > 0) {
             NSInteger index = i;
             if (i == 0) {
-                index = number - 1;
+                index = _networkImageCount - 1;
             }else if (i == _imageCount - 1) {
                 index = 0;
             }else {
@@ -307,6 +317,25 @@ const NSTimeInterval kDefaultInterval = 2;
     _bannerView.contentSize = CGSizeMake(_imageCount * _imageWidth, 0);
     _bannerView.contentOffset = CGPointMake(startOffset, 0);
     [self autoBanner:YES];
+}
+
+- (void)handleTapImageView:(UITapGestureRecognizer *)tapGesture {
+    UIImageView * imageView = (UIImageView *)tapGesture.view;
+    NSInteger tag = imageView.tag;
+    NSInteger index = 0;
+    if (tag == 0) {
+        index = _actualImageCount - 1;
+    }else if (tag == _imageCount - 1) {
+        index = 0;
+    }else {
+        index = tag - 1;
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(WHC_Banner:clickImageView:index:)]) {
+        [_delegate WHC_Banner:self clickImageView:imageView index:index];
+    }
+    if (_clickImageViewCallBack) {
+        _clickImageViewCallBack(imageView,index);
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

@@ -30,7 +30,13 @@ typedef NS_OPTIONS(NSUInteger, WHCBannerPageViewPosition) {
  * 说明: 加载网络图片回调块
  */
 
-typedef void (^WillLoadingNetworkImage)(UIImageView * imageView, NSString * url ,NSInteger index);
+typedef void (^WillLoadingNetworkImageBlock)(UIImageView * imageView, NSString * url ,NSInteger index);
+
+/**
+ * 说明: 点击图片回调
+ */
+
+typedef void (^ClickImageViewBlock)(UIImageView * imageView, NSInteger index);
 
 @class WHC_Banner;
 
@@ -40,6 +46,7 @@ typedef void (^WillLoadingNetworkImage)(UIImageView * imageView, NSString * url 
 
 @protocol WHC_BannerDelegate <NSObject>
 
+@optional
 /**
  * 说明:将要加载网络图片
  * @param banner 当前轮播视图
@@ -52,6 +59,17 @@ typedef void (^WillLoadingNetworkImage)(UIImageView * imageView, NSString * url 
           imageUrl:(NSString *)url
              index:(NSInteger)index;
 
+
+
+/**
+ * 说明:点击图片回调
+ * @param banner 当前轮播视图
+ * @param imageView 当前图片视图
+ * @param index 当前图片的下标
+ */
+- (void)WHC_Banner:(WHC_Banner *)banner
+    clickImageView:(UIImageView *)imageView
+             index:(NSInteger)index;
 @end
 
 /**
@@ -102,7 +120,14 @@ typedef void (^WillLoadingNetworkImage)(UIImageView * imageView, NSString * url 
  * @param callBack 回调块
  */
 
-- (void)setNetworkLoadingImageBlock:(WillLoadingNetworkImage)callBack;
+- (void)setNetworkLoadingImageBlock:(WillLoadingNetworkImageBlock)callBack;
+
+/**
+ * 说明: 设置点击图片回调块
+ * @param callBack 回调块
+ */
+
+- (void)setClickImageViewBlock:(ClickImageViewBlock)callBack;
 
 /**
  * 说明: 开始进行图片轮播
