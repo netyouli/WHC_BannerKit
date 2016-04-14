@@ -8,7 +8,7 @@
 
 
 ### 使用效果
-![](https://github.com/netyouli/WHC_AutoLayoutKit/blob/master/Gif/f.gif)
+![](https://github.com/netyouli/WHC_BannerKit/blob/master/show.gif)
 
 ```objective-c
 _banner = [[WHC_Banner alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth([UIScreen mainScreen].bounds), bannerHeight)];

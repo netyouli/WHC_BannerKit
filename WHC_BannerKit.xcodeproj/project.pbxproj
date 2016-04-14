@@ -16,8 +16,8 @@
 		C3A8B9B71CBF4A1100BEFCF7 /* banner-0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C3A8B9B41CBF4A1100BEFCF7 /* banner-0.jpg */; };
 		C3A8B9B81CBF4A1100BEFCF7 /* banner-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C3A8B9B51CBF4A1100BEFCF7 /* banner-1.jpg */; };
 		C3A8B9B91CBF4A1100BEFCF7 /* banner-2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C3A8B9B61CBF4A1100BEFCF7 /* banner-2.jpg */; };
-		C3A8B9E41CBF834300BEFCF7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C3A8B9E21CBF834300BEFCF7 /* README.md */; };
-		C3A8B9E51CBF834300BEFCF7 /* show.gif in Resources */ = {isa = PBXBuildFile; fileRef = C3A8B9E31CBF834300BEFCF7 /* show.gif */; };
+		C3A8B9E81CBF86E400BEFCF7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C3A8B9E61CBF86E400BEFCF7 /* README.md */; };
+		C3A8B9E91CBF86E400BEFCF7 /* show.gif in Resources */ = {isa = PBXBuildFile; fileRef = C3A8B9E71CBF86E400BEFCF7 /* show.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,8 +35,8 @@
 		C3A8B9B41CBF4A1100BEFCF7 /* banner-0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "banner-0.jpg"; sourceTree = "<group>"; };
 		C3A8B9B51CBF4A1100BEFCF7 /* banner-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "banner-1.jpg"; sourceTree = "<group>"; };
 		C3A8B9B61CBF4A1100BEFCF7 /* banner-2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "banner-2.jpg"; sourceTree = "<group>"; };
-		C3A8B9E21CBF834300BEFCF7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C3A8B9E31CBF834300BEFCF7 /* show.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = show.gif; sourceTree = "<group>"; };
+		C3A8B9E61CBF86E400BEFCF7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C3A8B9E71CBF86E400BEFCF7 /* show.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = show.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +69,8 @@
 		C3A8B9961CBF25E200BEFCF7 /* WHC_BannerKit */ = {
 			isa = PBXGroup;
 			children = (
-				C3A8B9E21CBF834300BEFCF7 /* README.md */,
-				C3A8B9E31CBF834300BEFCF7 /* show.gif */,
+				C3A8B9E61CBF86E400BEFCF7 /* README.md */,
+				C3A8B9E71CBF86E400BEFCF7 /* show.gif */,
 				C3A8B9B31CBF4A1100BEFCF7 /* images */,
 				C3A8B9AE1CBF27C600BEFCF7 /* WHC_BannerKit */,
 				C3A8B99A1CBF25E200BEFCF7 /* AppDelegate.h */,
@@ -170,7 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3A8B9B71CBF4A1100BEFCF7 /* banner-0.jpg in Resources */,
-				C3A8B9E51CBF834300BEFCF7 /* show.gif in Resources */,
+				C3A8B9E91CBF86E400BEFCF7 /* show.gif in Resources */,
 				C3A8B9A71CBF25E200BEFCF7 /* LaunchScreen.storyboard in Resources */,
 				C3A8B9B91CBF4A1100BEFCF7 /* banner-2.jpg in Resources */,
 				C3A8B9A41CBF25E200BEFCF7 /* Assets.xcassets in Resources */,
@@ -187,7 +187,7 @@
 			files = (
 				C3A8B99F1CBF25E200BEFCF7 /* ViewController.m in Sources */,
 				C3A8B99C1CBF25E200BEFCF7 /* AppDelegate.m in Sources */,
-				C3A8B9E41CBF834300BEFCF7 /* README.md in Sources */,
+				C3A8B9E81CBF86E400BEFCF7 /* README.md in Sources */,
 				C3A8B9B11CBF27C600BEFCF7 /* WHC_Banner.m in Sources */,
 				C3A8B9991CBF25E200BEFCF7 /* main.m in Sources */,
 			);
