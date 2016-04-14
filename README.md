@@ -4,6 +4,7 @@
 #### 开发作者: 吴海超
 #### iOS技术交流群: 302157745
 
+#### 轻量级的本地以及网络自动轮播器(简单，高效)
 #### 最强大自动布局开源库：https://github.com/netyouli/WHC_AutoLayoutKit
 
 
