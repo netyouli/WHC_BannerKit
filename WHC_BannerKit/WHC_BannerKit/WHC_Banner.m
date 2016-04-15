@@ -25,7 +25,7 @@ typedef NS_OPTIONS(NSUInteger, WHCBannerOrientation) {
 
 const CGFloat kPageViewHeight = 30;
 const CGFloat kImageNamePading = 10;
-const NSTimeInterval kDefaultInterval = 2;
+const NSTimeInterval kDefaultInterval = 5;
 
 @interface WHC_Banner ()<UIScrollViewDelegate>{
     UIScrollView            * _bannerView;
@@ -41,8 +41,10 @@ const NSTimeInterval kDefaultInterval = 2;
     NSInteger                 _actualImageCount;
     NSInteger                 _visibleImageCount;
     NSInteger                 _currentImageIndex;
+    NSInteger                 _actualImageIndex;
     NSInteger                 _initImageIndex;
     NSInteger                 _networkImageCount;
+    BOOL                      _isClickAnimation;
     WHCBannerOrientation      _doingScrollOrientation;
     WillLoadingNetworkImageBlock   _netWorkCallBack;
     ClickImageViewBlock            _clickImageViewCallBack;
@@ -158,6 +160,11 @@ const NSTimeInterval kDefaultInterval = 2;
 }
 
 - (void)handleBannerTimer:(NSTimer *)timer {
+    if (_isClickAnimation && _visibleImageCount > 1) return;
+    [self automaticCorrectionPosition];
+}
+
+- (void)automaticCorrectionPosition {
     _doingScrollOrientation = ScrollLeft;
     _currentImageIndex += 1;
     if (_currentImageIndex > _actualImageCount) {
@@ -320,6 +327,7 @@ const NSTimeInterval kDefaultInterval = 2;
 }
 
 - (void)handleTapImageView:(UITapGestureRecognizer *)tapGesture {
+    
     UIImageView * imageView = (UIImageView *)tapGesture.view;
     NSInteger tag = imageView.tag;
     NSInteger index = 0;
@@ -336,6 +344,27 @@ const NSTimeInterval kDefaultInterval = 2;
     if (_clickImageViewCallBack) {
         _clickImageViewCallBack(imageView,index);
     }
+    if (_visibleImageCount == 1 || _isClickAnimation) return;
+    _isClickAnimation = YES;
+    if (tag < _actualImageIndex) {
+        _doingScrollOrientation = ScrollRight;
+        _currentImageIndex -= 1;
+        if (_currentImageIndex < 0) {
+            _currentImageIndex = _actualImageCount;
+        }
+        CGFloat currentOffsetX = _bannerView.contentOffset.x - (NSInteger)(_bannerView.contentOffset.x / _imageWidth) * _imageWidth;
+        if (currentOffsetX == _initOffset) {
+            currentOffsetX = 0;
+        }else {
+            currentOffsetX -= _initOffset;
+        }
+        [_bannerView setContentOffset:CGPointMake(_bannerView.contentOffset.x - _imageWidth - currentOffsetX, 0) animated:YES];
+    }else if (tag > _actualImageIndex) {
+        [self automaticCorrectionPosition];
+    }else {
+        _doingScrollOrientation = None;
+        _isClickAnimation = NO;
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -348,6 +377,7 @@ const NSTimeInterval kDefaultInterval = 2;
     }
     CGFloat  offsetX = scrollView.contentOffset.x;
     _currentImageIndex = (NSInteger)floor((scrollView.contentOffset.x - _imageWidth / 2.0) / _imageWidth) + 1;
+    _actualImageIndex = _currentImageIndex;
     if (_currentImageIndex > 0) {
         _currentImageIndex -= 1;
     }
@@ -358,34 +388,29 @@ const NSTimeInterval kDefaultInterval = 2;
     if (_imageNameLabel) {
         _imageNameLabel.text = _imageTitles[MIN(_currentImageIndex, _imageTitles.count - 1)];
     }
-    if (_visibleImageCount > 1) {
-        if (offsetX <= 0) {
-            /// scroll right
-            if (_doingScrollOrientation == ScrollLeft) {
-                return;
-            }
-            _bannerView.contentOffset = CGPointMake((_imageCount - _visibleImageCount) * _imageWidth, 0);
-        }else if (offsetX >= _imageWidth * (_imageCount - _visibleImageCount)) {
-            /// scroll left
-            if (_doingScrollOrientation == ScrollRight) {
-                return;
-            }
-            _bannerView.contentOffset = CGPointMake(0.5, 0);
+    
+    if (offsetX <= 0) {
+        /// scroll right
+        if (_doingScrollOrientation == ScrollLeft) {
+            return;
         }
-    }else {
-        if (offsetX <= 0) {
-            /// scroll right
-            if (_doingScrollOrientation == ScrollLeft) {
-                return;
-            }
-            _bannerView.contentOffset = CGPointMake((_actualImageCount) * _imageWidth, 0);
-        }else if (offsetX >= _imageWidth * (_imageCount - _visibleImageCount)) {
-            /// scroll left
-            if (_doingScrollOrientation == ScrollRight) {
-                return;
-            }
+        _bannerView.contentOffset = CGPointMake((_actualImageCount) * _imageWidth, 0);
+    }else if (offsetX >= _imageWidth * (_imageCount - _visibleImageCount)) {
+        /// scroll left
+        if (_doingScrollOrientation == ScrollRight) {
+            return;
+        }
+        if (_visibleImageCount > 1) {
+            _bannerView.contentOffset = CGPointMake(0.5, 0);
+        }else {
             _bannerView.contentOffset = CGPointMake(_visibleImageCount * _imageWidth, 0);
         }
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    if (_visibleImageCount > 1) {
+        _isClickAnimation = NO;
     }
 }
 

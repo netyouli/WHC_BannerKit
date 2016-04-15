@@ -11,7 +11,7 @@
  *  qq:712641411                                             *
  *  开发作者: 吴海超(WHC)                                      *
  *  iOS技术交流群:302157745                                    *
- *  gitHub:https://github.com/netyouli/WHC_AutoLayoutKit     *
+ *  gitHub:https://github.com/netyouli/WHC_BannerKit    *
  *                                                           *
  *************************************************************/
 
@@ -79,6 +79,15 @@
     
     // [_banner4 startBanner];
     
+    
+    [_banner4 setClickImageViewBlock:^(UIImageView *imageView, NSInteger index) {
+        // 处理点击图片操作
+        NSLog(@"点击图片index = %ld",(long)index);
+    }];
+    /*
+     
+     */
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,4 +104,8 @@
     //[imageView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"default.png"]];
 }
 
+- (void)WHC_Banner:(WHC_Banner *)banner clickImageView:(UIImageView *)imageView index:(NSInteger)index {
+    // 处理点击图片操作
+    NSLog(@"点击图片index = %ld",(long)index);
+}
 @end
