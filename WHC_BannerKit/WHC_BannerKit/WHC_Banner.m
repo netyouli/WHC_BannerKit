@@ -84,6 +84,10 @@ const NSTimeInterval kDefaultInterval = 5;
     _bannerView.contentInset = UIEdgeInsetsZero;
 }
 
+- (void)setImageWidth:(CGFloat)imageWidth {
+    _imageWidth = MIN(CGRectGetWidth(self.bounds), imageWidth);
+}
+
 - (void)initData {
     _visibleImageCount = 1;
     _interval = kDefaultInterval;
@@ -181,7 +185,6 @@ const NSTimeInterval kDefaultInterval = 5;
 }
 
 - (void)startBanner {
-    [self layoutIfNeeded];
     if (_imageWidth == 0) {
         _imageWidth = CGRectGetWidth(self.bounds);
     }
@@ -228,7 +231,7 @@ const NSTimeInterval kDefaultInterval = 5;
             [subView removeFromSuperview];
         }
     }
-    if (images && images.count > 1) {
+    if (images && images.count > 0) {
         [_imageArray removeAllObjects];
         [_imageArray addObject:images.lastObject];
         [_imageArray addObjectsFromArray:images];
